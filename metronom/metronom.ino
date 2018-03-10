@@ -1,26 +1,26 @@
 /*
-  Button
+  Metronome
  
- Turns on and off a light emitting diode(LED) connected to digital  
- pin 13, when pressing a pushbutton attached to pin 2. 
- 
- 
- The circuit:
- * LED attached from pin 13 to ground 
- * pushbutton attached to pin 2 TO GND
- * pin2 input_pullup
- 
+ one button on pin 2 to GND
+ two LEDs on pin 3 and pin 4
+
+ Tap in the rate.
+ The LEDs will blink.
+
  */
 
-// constants won't change. They're used here to 
 // set pin numbers:
 #define buttonPin  2
 #define ledPin1    3
 #define ledPin2    4
+// state 
 #define MAINSTATE_LEARNING   1
 #define MAINSTATE_PLAYING    2
+
 #define TIMEOUT   3000
+
 int mainState = 0;
+
 unsigned long duration;
 unsigned long startTime;
 unsigned long now;
@@ -38,7 +38,7 @@ void setup() {
   pinMode(ledPin2, OUTPUT);      
   // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT_PULLUP); 
-  Serial.begin(38400);  
+  //Serial.begin(38400);  
 
   mainState = MAINSTATE_PLAYING;
   duration = 750;
@@ -55,7 +55,7 @@ void play(){
      } 
      if ((now-startTime) > duration) {
        startTime = now;
-       cur_pulse = cur_pulse + 1;
+       cur_pulse += 1;
        if (cur_pulse >= n_pulses) {
          cur_pulse = 0;
        }
@@ -81,7 +81,7 @@ void learn_now() {
     duration = now - startTime;
   }
   else {
-    duration = ((now -startTime) + duration*(n_pulses-1))/(n_pulses);
+    duration = ((now - startTime) + duration * (n_pulses - 1)) / n_pulses;
   }
   n_pulses += 1;
   //Serial.print("LEARN  ");
@@ -134,19 +134,18 @@ void loop(){
   }
   
   if (mainState == MAINSTATE_LEARNING) {
-    if (now-startTime < 15) {
+    if (now-startTime < 30) {
+      // debounce
       return;
     }
     if (buttonPressed == 1) {
        learn_now();
+       return;
     }
-    else {
-      if (now-startTime > TIMEOUT) {
-        end_learning();
-        //Serial.print("timeout\n");
-      }
+    if (now-startTime > TIMEOUT) {
+      end_learning();
+      //Serial.print("timeout\n");
     }
-    
   }
 }
 
