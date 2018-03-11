@@ -3,8 +3,9 @@
 ## Hardware
 
 * Arduino Nano
-* one button on pin 2 to GND
-* two LEDs on pin 3 and pin 4
+* One button on pin 2 to GND
+* Two LEDs on pin 3 and pin 4
+* Buzzer on pin 9 (pwm)
 
 Tap in the rate and number of pulses, wait for three seconds and the LEDs will blink.
 
