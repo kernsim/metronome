@@ -3,6 +3,7 @@
 
  one button on pin 2 to GND
  two LEDs on pin 3 and pin 4
+ buzzer on pin 9
 
  Tap in the rate.
  The LEDs will blink.
@@ -37,6 +38,7 @@
 #define buttonPin  2
 #define ledPin1    3
 #define ledPin2    4
+#define buzzerPin  9
 // state
 #define LEARNING   1
 #define PLAYING    2
@@ -58,6 +60,7 @@ void setup() {
   // initialize the LED pin as an output:
   pinMode(ledPin1, OUTPUT);
   pinMode(ledPin2, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
   // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT_PULLUP);
 
@@ -88,9 +91,14 @@ void play(){
          current_pulse = 0;
        }
        if (current_pulse == 0) {
+         tone(buzzerPin, 523, 15);
          digitalWrite(ledPin1, HIGH);
        }
+       else {
+         tone(buzzerPin, 262, 15);
+       }
        digitalWrite(ledPin2, HIGH);
+
      }
   }
 
