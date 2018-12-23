@@ -78,7 +78,7 @@ void setup() {
 
 void play(){
      if ((now - start_time) > interval / 2) {
-       // after 20% of interval: switch LEDs off
+       // after 50% of the interval: switch the LEDs off
        digitalWrite(ledPin1, LOW);
        digitalWrite(ledPin2, LOW);
      }
